@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+puts 'Deploying app'
+
+remote = ARGV[0]
+
+system "heroku pg:backups capture --remote #{remote}"
+system "git push #{remote} master"
+system "heroku run rails db:migrate --remote #{remote}"
+system "heroku restart --remote #{remote}"
